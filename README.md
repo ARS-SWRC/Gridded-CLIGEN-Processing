@@ -1,7 +1,7 @@
 # Gridded CLIGEN Processing
 ## _GEE code that calculates CLIGEN input parameters from global climate products_
 
-The scripts in the linked repository [ARS-SWRC/Gridded-CLIGEN-Processing]
+The scripts in this repository [ARS-SWRC/Gridded-CLIGEN-Processing]
 are used to calculate CLIGEN input parameters directly from global climate
 datasets. Bias adjustments for the resulting parameter values are not currently
 part of this code. The scripts only require a GEE asset representing point geometries.
