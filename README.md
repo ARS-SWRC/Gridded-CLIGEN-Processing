@@ -20,8 +20,8 @@ of selected climate products for clipped regions.
 | Mean of daily precip. for "wet" days in the month | MEAN P | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation |
 | Standard deviation of daily precip. for "wet" days in the month | S DEV P | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation |
 | Skewness of daily precip. for "wet" days in the month | SKEW P | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation | 
-| transition probability of a wet day given a wet day | P(W/W) | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation |
-| transition probability of a wet day given a dry day | P(W/D) | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation |
+| Transition probability of a wet day given a wet day | P(W/W) | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation |
+| Transition probability of a wet day given a dry day | P(W/D) | [precip_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | total_precipitation |
 | Maximum 30-min intensity in month averaged by years | MX.5P | [intensity_subdaily_variable.py] | [GPM][linkB] ("NASA/GPM_L3/IMERG_V06") | precipitationCal |
 | Time-to-peak-intensity cumulative probability dist. | TimePk | - | - | - |
 | Mean of maximum daily temperature | TMAX AV | [temp_daily_variables.py] | [ERA5][linkA] ("ECMWF/ERA5/DAILY") | maximum_2m_air_temperature |
