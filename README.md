@@ -13,7 +13,17 @@ of selected climate products for clipped regions.
 - Test possibilities for optimizing the code to reduce run-time.
 - Run the code for large regions.
 
-## Monthly CLIGEN Input Parameters
+# GEE Point Geometry Assets
+| Description | Path | n | Climate Product |
+| ------ | ------ | ------ | ------ |
+| Demo grid for Pima and Santa Cruz Counties for ERA5 | ("users/andrewfullhart/PimaSantaCruz_ERA_Grid") | 40 | [ERA5][linkA]|
+| Demo grid for Pima and Santa Cruz Counties for GPM | ("users/andrewfullhart/PimaSantaCruz_GPM_Grid") | 252 | [GPM][linkB]|
+| Demo grid for Pima and Santa Cruz Counties for GLDAS | ("users/andrewfullhart/PimaSantaCruz_GLDAS_Grid") | 40 | [GLDAS][linkC]|
+| Demo grid for State of Arizona for ERA5 | ("users/andrewfullhart/PimaSantaCruz_ERA_Grid") | 470 | [ERA5][linkA]|
+| Demo grid for State of Arizona for GPM | ("users/andrewfullhart/PimaSantaCruz_GPM_Grid") | 2918 | [GPM][linkB]|
+| Demo grid for State of Arizona for GLDAS | ("users/andrewfullhart/PimaSantaCruz_GLDAS_Grid") | 470 | [GLDAS][linkC]|
+
+# Monthly CLIGEN Input Parameters
 
 | Parameter	| Label	| Script | Climate Product | Band |
 | ------ | ------ | ------ | ------ | ------ |
