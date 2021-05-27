@@ -16,9 +16,9 @@ of selected climate products for clipped regions.
 # GEE Point Geometry Assets
 | Description | Path | n | Climate Product |
 | ------ | ------ | ------ | ------ |
-| Demo grid for Pima and Santa Cruz Counties | ("users/andrewfullhart/PimaSantaCruz_ERA_Grid") | 40 | [ERA5][linkA]|
-| Demo grid for Pima and Santa Cruz Counties | ("users/andrewfullhart/PimaSantaCruz_GPM_Grid") | 252 | [GPM][linkB]|
-| Demo grid for Pima and Santa Cruz Counties | ("users/andrewfullhart/PimaSantaCruz_GLDAS_Grid") | 40 | [GLDAS][linkC]|
+| Demo grid for Pima and Santa Cruz counties | ("users/andrewfullhart/PimaSantaCruz_ERA_Grid") | 40 | [ERA5][linkA]|
+| Demo grid for Pima and Santa Cruz counties | ("users/andrewfullhart/PimaSantaCruz_GPM_Grid") | 252 | [GPM][linkB]|
+| Demo grid for Pima and Santa Cruz counties | ("users/andrewfullhart/PimaSantaCruz_GLDAS_Grid") | 40 | [GLDAS][linkC]|
 | Demo grid for State of Arizona | ("users/andrewfullhart/AZ_ERA_Grid") | 470 | [ERA5][linkA]|
 | Demo grid for State of Arizona | ("users/andrewfullhart/AZ_GPM_Grid") | 2918 | [GPM][linkB]|
 | Demo grid for State of Arizona | ("users/andrewfullhart/AZ_GLDAS_Grid") | 470 | [GLDAS][linkC]|
