@@ -22,6 +22,8 @@ of selected climate products for clipped regions.
 | Demo grid for State of Arizona | ("users/andrewfullhart/AZ_ERA_Grid") | 470 | [ERA5][linkA]|
 | Demo grid for State of Arizona | ("users/andrewfullhart/AZ_GPM_Grid") | 2918 | [GPM][linkB]|
 | Demo grid for State of Arizona | ("users/andrewfullhart/AZ_GLDAS_Grid") | 470 | [GLDAS][linkC]|
+| Kazakhstan grid | ("users/andrewfullhart/Kazakhstan_ERA_Grid") | 5288 | [ERA5][linkA]|
+| Africa grid | ("users/andrewfullhart/Africa_ERA_Grid") | 40935 | [ERA5][linkA]|
 
 # Monthly CLIGEN Input Parameters
 
