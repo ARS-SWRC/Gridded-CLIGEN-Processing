@@ -1,6 +1,4 @@
-'Code assumes precip units are mm/hr or hourly or daily accumulation in mm.'
-'If the unit is daily or hourly accumulation in mm, use a temporal resolution of 60 min.'
-'Intensity->accumulation = minutes / (1/(minutes/60))'
+
 'at least two stations and one year needed for output to be produced?'
 
 import ee
@@ -15,19 +13,18 @@ ee.Initialize()
 
 product_name = 'ECMWF/ERA5/DAILY'
 band_labels = ['total_precipitation']
-asset = ee.FeatureCollection( 'users/andrewfullhart/KGZ_TJK_ERA_Grid' )
+asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
 start = '2000-01-01'
 end = '2020-01-01'
 
-temporal_resolution = 60 #minutes
 length_unit_factor_of_mm = (1./1000.) #1 indicates length unit is in mm 1/1000 indicates length unit is in m
-stations_per_batch = 20
+stations_per_batch = 40
 
 stations = ee.FeatureCollection( asset )
 
 'slice stations in case of restart'
 #station_feats = stations.toList( 10000000 )
-#stations = ee.FeatureCollection( station_feats.slice( 320 ) )
+#stations = ee.FeatureCollection( station_feats.slice( 0, 40 ) )
 
 stationIDs = ee.List( stations.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
 
@@ -87,8 +84,7 @@ for batch_i in range(batch_ct):
                 day_filter = ee.Filter.date( start, end )
                 fc = raw_data_fc.filter( day_filter )
                 total = fc.reduceColumns( ee.Reducer.sum(), ee.List( ['precip'] ) )
-                acc = ee.Number( total.get( 'sum' ) ).divide( inten_to_accum_factor_ ) \
-                                        .divide( length_to_mm_factor_ )
+                acc = ee.Number( total.get( 'sum' ) ).divide( length_to_mm_factor_ )
                 return ee.Feature( None, {'precip': acc} )
     
             day_dates_fc = dates_fc_.filter( month_filter )
@@ -180,8 +176,7 @@ for batch_i in range(batch_ct):
     
     station_ids = ee.List( stations_.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
     station_ids_strs_ = ee.List( [str(elem) for elem in station_ids.getInfo()] )
-    
-    inten_to_accum_factor_ = ee.Number( 1. ).divide( ee.Number(temporal_resolution).divide( 60. ) )
+
     length_to_mm_factor_ = ee.Number( length_unit_factor_of_mm )
     months_seq = ee.List.sequence( 1, 12 )
     
@@ -195,7 +190,7 @@ for batch_i in range(batch_ct):
     out_fc = ee.FeatureCollection( station_ids_strs_.map( out_list_unpacker ) ).flatten()
     
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
-                                      description='ERA_KGZ_TJK_2000_2020_{}'.format( str(batch_i) ),
+                                      description='ERA_DEMO_2000_2020_{}'.format( str(batch_i) ),
                                       folder='GEE_Downloads' )
     
     task.start()
@@ -209,3 +204,10 @@ for batch_i in range(batch_ct):
     
     later = dt.datetime.now()
     print(str(later - now))
+
+
+
+
+
+
+
