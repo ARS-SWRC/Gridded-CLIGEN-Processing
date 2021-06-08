@@ -11,7 +11,7 @@ ee.Initialize()
 
 product_name = 'NASA/GLDAS/V021/NOAH/G025/T3H'
 band_labels = ['SWdown_f_tavg']
-asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
+asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_GLDAS_Grid' )
 start = '2000-01-01'
 end = '2020-01-01'
 
