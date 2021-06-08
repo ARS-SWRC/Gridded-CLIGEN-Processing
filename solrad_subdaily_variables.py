@@ -11,7 +11,7 @@ ee.Initialize()
 
 product_name = 'NASA/GLDAS/V021/NOAH/G025/T3H'
 band_labels = ['SWdown_f_tavg']
-asset = ee.FeatureCollection( 'users/andrewfullhart/KGZ_TJK_GLDAS_Grid' )
+asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
 start = '2000-01-01'
 end = '2020-01-01'
 
@@ -23,7 +23,7 @@ stations = ee.FeatureCollection( asset )
 
 'slice stations in case of restart'
 #station_feats = stations.toList( 10000000 )
-#stations = ee.FeatureCollection( station_feats.slice( 320 ) )
+#stations = ee.FeatureCollection( station_feats.slice( 0, 3 ) )
 
 stationIDs = ee.List( stations.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
 
@@ -44,24 +44,24 @@ for i in range(stationIDs.size().getInfo()):
 station_groups.append( tmp )            
 station_groups_ = ee.List( station_groups )
 
+def dates_list_to_feats( date ):
+    dct = {'system:time_start': ee.Date( date ).millis()}
+    return ee.Feature( None, dct )
+
+def region_array_to_feats( img_vals ):
+    val_list = ee.List( img_vals )
+    dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
+            'SWin': ee.Number( val_list.get( 4 ) )}
+    return ee.Feature( None, dct )
+
+def dict_list_unpacker( dct_obj ):
+    dct = ee.Dictionary( dct_obj )
+    return dct.values()
+
 for batch_i in range(batch_ct):
     stationID_batch_list = ee.List( station_groups_.get( batch_i ) )
     batch_filter = ee.Filter.inList( 'stationID', stationID_batch_list )
     stations_ = stations.filter( batch_filter )
-    
-    def dates_list_to_feats( date ):
-        dct = {'system:time_start': ee.Date( date ).millis()}
-        return ee.Feature( None, dct )
-    
-    def region_array_to_feats( img_vals ):
-        val_list = ee.List( img_vals )
-        dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
-                'SWin': ee.Number( val_list.get( 4 ) )}
-        return ee.Feature( None, dct )
-    
-    def dict_list_unpacker( dct_obj ):
-        dct = ee.Dictionary( dct_obj )
-        return dct.values()
     
     def main_funcs_caller( mo ):    
         mo = ee.Number( mo ).int()
@@ -142,7 +142,7 @@ for batch_i in range(batch_ct):
     out_fc = ee.FeatureCollection( station_ids_strs_.map( out_list_unpacker ) ).flatten()
     
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
-                                      description='KGZ_TJK_solrad_2000_2020_{}'.format( str(batch_i) ),
+                                      description='GLDAS_DEMO_2000_2020_{}'.format( str(batch_i) ),
                                       folder='GEE_Downloads' )
 
     task.start()
