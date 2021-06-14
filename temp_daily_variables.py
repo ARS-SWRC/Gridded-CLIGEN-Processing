@@ -43,26 +43,26 @@ for i in range(stationIDs.size().getInfo()):
         
 station_groups.append( tmp )            
 station_groups_ = ee.List( station_groups )
+  
+def dates_list_to_feats( date ):
+    dct = {'system:time_start': ee.Date( date ).millis()}
+    return ee.Feature( None, dct )
+
+def region_array_to_feats( img_vals ):
+    val_list = ee.List( img_vals )
+    temp = ee.Number( ee.Number( 1.8 ).multiply( ee.Number( val_list.get( 4 ) ).subtract( 273. ) ) ).add( 32. )
+    dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
+            'temp': temp}
+    return ee.Feature( None, dct )
+
+def dict_list_unpacker( dct_obj ):
+    dct = ee.Dictionary( dct_obj )
+    return dct.values()
 
 for batch_i in range(batch_ct):
     stationID_batch_list = ee.List( station_groups_.get( batch_i ) )
     batch_filter = ee.Filter.inList( 'stationID', stationID_batch_list )
     stations_ = stations.filter( batch_filter )
-    
-    def dates_list_to_feats( date ):
-        dct = {'system:time_start': ee.Date( date ).millis()}
-        return ee.Feature( None, dct )
-    
-    def region_array_to_feats( img_vals ):
-        val_list = ee.List( img_vals )
-        temp = ee.Number( ee.Number( 1.8 ).multiply( ee.Number( val_list.get( 4 ) ).subtract( 273. ) ) ).add( 32. )
-        dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
-                'temp': temp}
-        return ee.Feature( None, dct )
-    
-    def dict_list_unpacker( dct_obj ):
-        dct = ee.Dictionary( dct_obj )
-        return dct.values()
     
     def main_funcs_caller( mo ):    
         mo = ee.Number( mo ).int()
