@@ -17,7 +17,6 @@ asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
 start = '2000-01-01'
 end = '2020-01-01'
 
-length_unit_factor_of_mm = (1./1000.) #1 indicates length unit is in mm 1/1000 indicates length unit is in m
 stations_per_batch = 40
 
 stations = ee.FeatureCollection( asset )
@@ -75,19 +74,7 @@ for batch_i in range(batch_ct):
     
         def station_funcs( station ):
             ic_prop_array = ic.getRegion( ee.FeatureCollection( station ), 1000 ).slice( 1 )     
-            raw_data_fc = ee.FeatureCollection( ic_prop_array.map( region_array_to_feats ) )
-    
-            def daily_sorter( day ):
-                start = ee.Date( day.get( 'system:time_start' ) )
-                end = start.advance( 1, 'day' )
-                day_filter = ee.Filter.date( start, end )
-                fc = raw_data_fc.filter( day_filter )
-                total = fc.reduceColumns( ee.Reducer.sum(), ee.List( ['precip'] ) )
-                acc = ee.Number( total.get( 'sum' ) ).divide( length_to_mm_factor_ )
-                return ee.Feature( None, {'precip': acc} )
-    
-            day_dates_fc = dates_fc_.filter( month_filter )
-            day_vals_fc = ee.FeatureCollection( day_dates_fc.map( daily_sorter ) )
+            day_vals_fc = ee.FeatureCollection( ic_prop_array.map( region_array_to_feats ) )
             day_vals = day_vals_fc.reduceColumns( ee.Reducer.toList(), ['precip'] ).get( 'list' )
             
             def prob_counter( precip_list_obj ):
@@ -117,10 +104,10 @@ for batch_i in range(batch_ct):
                 iter_out = ee.List( precip_list.iterate( begin_counter, first_data ) )
                 return ee.List( iter_out )
     
-            nonzeros = day_vals_fc.filter( ee.Filter.gt( 'precip', ee.Number( 0 ) ) )
-            mean = nonzeros.reduceColumns( ee.Reducer.mean(), ['precip'] )
-            stdDev = nonzeros.reduceColumns( ee.Reducer.sampleStdDev(), ['precip'] )
-            skew = nonzeros.reduceColumns( ee.Reducer.skew(), ['precip'] )
+            nonzeros_fc = day_vals_fc.filter( ee.Filter.gt( 'precip', ee.Number( 0 ) ) )
+            mean = nonzeros_fc.reduceColumns( ee.Reducer.mean(), ['precip'] )
+            stdDev = nonzeros_fc.reduceColumns( ee.Reducer.sampleStdDev(), ['precip'] )
+            skew = nonzeros_fc.reduceColumns( ee.Reducer.skew(), ['precip'] )
             counts = ee.List( prob_counter( day_vals ).get( 1 ) )
             ww_ct = ee.Number( counts.get( 0 ) ).float()
             wd_ct = ee.Number( counts.get( 1 ) ).float()
@@ -176,7 +163,6 @@ for batch_i in range(batch_ct):
     station_ids = ee.List( stations_.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
     station_ids_strs_ = ee.List( [str(elem) for elem in station_ids.getInfo()] )
 
-    length_to_mm_factor_ = ee.Number( length_unit_factor_of_mm )
     months_seq = ee.List.sequence( 1, 12 )
     
     strs_of_stats_ = ee.List( ['mean', 'stdDev', 'skew', 'pWD', 'pWW'] )
@@ -189,7 +175,7 @@ for batch_i in range(batch_ct):
     out_fc = ee.FeatureCollection( station_ids_strs_.map( out_list_unpacker ) ).flatten()
     
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
-                                      description='ERA_DEMO_2000_2020_{}'.format( str(batch_i) ),
+                                      description='PimaSantaCruz_Demo_2000_2020_{}'.format( str(batch_i) ),
                                       folder='GEE_Downloads' )
     
     task.start()
@@ -203,3 +189,6 @@ for batch_i in range(batch_ct):
     
     later = dt.datetime.now()
     print(str(later - now))
+    
+    
+    
