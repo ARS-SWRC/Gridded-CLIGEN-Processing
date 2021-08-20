@@ -37,6 +37,7 @@ listOfImages = eraClip_ic.toList( eraClip_ic.size() )
 sample_im = ee.Image( listOfImages.get( 0 ) )
 
 vectors_fc = sample_im.sample( geometries=True, region=union_shp )
+vectors_fc = vectors_fc.select( ['system:index', 'stationID'] )
 
 listOfFeats = vectors_fc.toList( vectors_fc.size() )
 
