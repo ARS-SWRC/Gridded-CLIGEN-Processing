@@ -175,7 +175,8 @@ for batch_i in range(batch_ct):
     
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
                                       description='PimaSantaCruz_Demo_2000_2020_{}'.format( str(batch_i) ),
-                                      folder='GEE_Downloads' )
+                                      folder='GEE_Downloads',
+                                      selectors=['system:index', 'station_ID', 'statistic'] )
     
     task.start()
     
