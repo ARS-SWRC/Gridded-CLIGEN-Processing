@@ -64,9 +64,8 @@ for batch_i in range(batch_ct):
     batch_filter = ee.Filter.inList( 'stationID', stationID_batch_list )
     stations_ = stations.filter( batch_filter )
     
-    def main_funcs_caller( mo ):    
-        mo = ee.Number( mo ).int()
-        month_filter = ee.Filter.calendarRange( mo, mo.add( 1 ), 'month' )
+    def main_funcs_caller( mo ):
+        month_filter = ee.Filter.calendarRange( mo, mo, 'month' )
         ic = ee.ImageCollection( product_name )                                    \
                 .filterDate( start, end )                                          \
                 .filter( month_filter )                                            \
