@@ -11,13 +11,13 @@ ee.Initialize()
 
 product_name = 'NASA/GLDAS/V021/NOAH/G025/T3H'
 band_labels = ['SWdown_f_tavg']
-asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_GLDAS_Grid' )
+asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
 start = '2000-01-01'
 end = '2020-01-01'
 
-convert_unit_factor_ = (3.*3600.) / 41840. 
+#convert_unit_factor_ = (3.*3600.) / 41840. 
 
-stations_per_batch = 20
+stations_per_batch = 40
 
 stations = ee.FeatureCollection( asset )
 
@@ -40,7 +40,7 @@ for i in range(stationIDs.size().getInfo()):
         ct = 0
     else:
         pass
-        
+
 station_groups.append( tmp )            
 station_groups_ = ee.List( station_groups )
 
@@ -80,7 +80,7 @@ for batch_i in range(batch_ct):
                 day_filter = ee.Filter.date( start, end )
                 fc = raw_data_fc.filter( day_filter )
                 total = fc.reduceColumns( ee.Reducer.sum(), ee.List( ['SWin'] ) )
-                acc = ee.Number( total.get( 'sum' ) ).multiply( convert_unit_factor_ )
+                acc = ee.Number( total.get( 'sum' ) )#.multiply( convert_unit_factor_ )
                 return ee.Feature( None, {'SWin': acc} )
     
             day_dates_fc = dates_fc_.filter( month_filter )
@@ -142,7 +142,8 @@ for batch_i in range(batch_ct):
     
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
                                       description='GLDAS_DEMO_2000_2020_{}'.format( str(batch_i) ),
-                                      folder='GEE_Downloads' )
+                                      folder='GEE_Downloads',
+                                      selectors=['system:index', 'station_ID', 'statistic'] )
 
     task.start()
     
@@ -155,3 +156,4 @@ for batch_i in range(batch_ct):
     
     later = dt.datetime.now()
     print(str(later - now))
+    
