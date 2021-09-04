@@ -67,16 +67,6 @@ for i in range(12):
 
 monthly_ee_dates_ = ee.List( monthly_nested_dates_ )
 
-def region_array_to_feats( img_vals ):
-    val_list = ee.List( img_vals )
-    dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
-            'SWin': ee.Number( val_list.get( 4 ) )}
-    return ee.Feature( None, dct )
-
-def dict_list_unpacker( dct_obj ):
-    dct = ee.Dictionary( dct_obj )
-    return dct.values()
-
 def list_unpacker( eelist ):
     eelist = ee.List( eelist )
     return eelist.get( 4 )
