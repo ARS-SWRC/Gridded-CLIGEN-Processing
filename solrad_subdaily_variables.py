@@ -10,13 +10,13 @@ ee.Initialize()
 
 product_name = 'NASA/GLDAS/V021/NOAH/G025/T3H'
 band_labels = ['SWdown_f_tavg']
-asset = 'users/andrewfullhart/PimaSantaCruz_ERA_Grid'
+asset = 'users/andrewfullhart/PimaSantaCruz_GLDAS_Grid'
 start = '2000-01-02'
 end = '2020-01-01'
 
 #convert_unit_factor_ = (3.*3600.) / 41840. 
 
-stations_per_batch = 40
+stations_per_batch = 20
 
 stations = ee.FeatureCollection( asset )
 
@@ -25,7 +25,7 @@ stations = ee.FeatureCollection( asset )
 #stations = ee.FeatureCollection( station_feats.slice( 0, 3 ) )
 
 stationIDs = ee.List( stations.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
-stations_list_ = stations.toList( 1000000 )
+stations_list_ = stations.toList( 10000000 )
 
 station_groups = []
 tmp = []
@@ -52,7 +52,7 @@ start_date = dt.datetime.strptime( start, '%Y-%M-%d' )
 end_date = dt.datetime.strptime( end, '%Y-%M-%d' )
 diff = abs((end_date - start_date).days)
 
-monthly_nested_dates_ = []
+monthly_nested_dates = []
 for i in range(12):
     mo_dates = []
     for j in range(diff):
@@ -63,14 +63,13 @@ for i in range(12):
         else:
             pass
         
-    monthly_nested_dates_.append( ee.List( mo_dates ) )
+    monthly_nested_dates.append( ee.List( mo_dates ) )
 
-monthly_ee_dates_ = ee.List( monthly_nested_dates_ )
+monthly_ee_dates_ = ee.List( monthly_nested_dates )
 
 def list_unpacker( eelist ):
     eelist = ee.List( eelist )
     return eelist.get( 4 )
-
 
 for batch_i in range(batch_ct):
     stationID_batch_list = ee.List( station_groups_.get( batch_i ) )
@@ -136,11 +135,11 @@ for batch_i in range(batch_ct):
     
         out = number_of_stats_seq_.map( stat_iter_func )
         return out
-        
+      
     out_list = ee.List.sequence( 0, stations_n_.add( -1 ) ).map( organize_output_func )
     out_list = out_list.flatten()
     out_fc = ee.FeatureCollection( out_list )
-
+    #info = out_fc.getInfo()
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
                                       description='GLDAS_DEMO_2000_2020_{}'.format( str(batch_i) ),
                                       folder='GEE_Downloads',
@@ -149,7 +148,7 @@ for batch_i in range(batch_ct):
     task.start()
     
     while task.active():
-        time.sleep( 30 )
+        time.sleep( 100 )
     if task.status()['state'] != 'COMPLETED':
         pass
     else:
@@ -157,5 +156,4 @@ for batch_i in range(batch_ct):
     
     later = dt.datetime.now()
     print(str(later - now))    
-
 
