@@ -1,6 +1,4 @@
 
-'at least two stations and one year needed for output to be produced?'
-
 import ee
 import datetime as dt
 import time
@@ -13,7 +11,7 @@ ee.Initialize()
 
 product_name = 'ECMWF/ERA5/DAILY'
 band_labels = ['total_precipitation']
-asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
+asset = 'users/andrewfullhart/PimaSantaCruz_ERA_Grid'
 start = '2000-01-01'
 end = '2020-01-01'
 
@@ -23,7 +21,25 @@ stations = ee.FeatureCollection( asset )
 
 'slice stations in case of restart'
 #station_feats = stations.toList( 10000000 )
-#stations = ee.FeatureCollection( station_feats.slice( 0, 3 ) )
+#stations = ee.FeatureCollection( station_feats.slice( 100 ) )
+
+
+def dates_list_to_feats( date ):
+    dct = {'system:time_start': ee.Date( date ).millis()}
+    return ee.Feature( None, dct )
+
+def region_array_to_feats( img_vals ):
+    val_list = ee.List( img_vals )
+    dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
+            'precip': ee.Number( val_list.get( 4 ) )}
+    return ee.Feature( None, dct )
+
+def dict_list_unpacker( dct_obj ):
+    dct = ee.Dictionary( dct_obj )
+    return dct.values()
+
+def list_flatten( list_obj ):
+    return ee.List( list_obj ).flatten()
 
 
 stationIDs = ee.List( stations.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
@@ -45,25 +61,29 @@ for i in range(stationIDs.size().getInfo()):
 station_groups.append( tmp )            
 station_groups_ = ee.List( station_groups )
 
-def dates_list_to_feats( date ):
-    dct = {'system:time_start': ee.Date( date ).millis()}
-    return ee.Feature( None, dct )
+dates = []
+start_date = ee.Date( start )
+end_date = ee.Date( end )
+n = end_date.difference( start_date, 'day' )
+for i in range(n.getInfo()):
+    date = start_date.advance( ee.Number( i ), 'day' )
+    dates.append( date )
 
-def region_array_to_feats( img_vals ):
-    val_list = ee.List( img_vals )
-    dct = {'system:time_start':ee.Date( val_list.get( 3 ) ).millis(),
-            'precip': ee.Number( val_list.get( 4 ) )}
-    return ee.Feature( None, dct )
+dates_ee = ee.List( dates )
+dates_fc_ = ee.FeatureCollection( dates_ee.map( dates_list_to_feats ) )
 
-def dict_list_unpacker( dct_obj ):
-    dct = ee.Dictionary( dct_obj )
-    return dct.values()
+months_seq = ee.List.sequence( 1, 12 )
+
+strs_of_stats_ = ee.List( ['mean', 'stdDev', 'skew', 'pWD', 'pWW'] )
+number_of_stats_seq_ = ee.List.sequence( 0, strs_of_stats_.length().add( -1 ) )
 
 for batch_i in range(batch_ct):
     stationID_batch_list = ee.List( station_groups_.get( batch_i ) )
     batch_filter = ee.Filter.inList( 'stationID', stationID_batch_list )
     stations_ = stations.filter( batch_filter )
- 
+    station_ids = ee.List( stations_.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
+    station_ids_strs_ = ee.List( [str(elem) for elem in station_ids.getInfo()] )
+    
     def main_funcs_caller( mo ):
         month_filter = ee.Filter.calendarRange( mo, mo, 'month' )
         ic = ee.ImageCollection( product_name )                                    \
@@ -131,10 +151,7 @@ for batch_i in range(batch_ct):
         out_list = out_list.add( ee.List( pWD ).map( dict_list_unpacker ) )
         out_list = out_list.add( ee.List( pWW ).map( dict_list_unpacker ) )
         return out_list
-    
-    def list_flatten( list_obj ):
-        return ee.List( list_obj ).flatten()
-    
+        
     def out_list_unpacker( station_id ):
         station_str = ee.String( station_id )
         station_i = station_ids_strs_.indexOf( station_str )
@@ -149,24 +166,6 @@ for batch_i in range(batch_ct):
         fc = ee.FeatureCollection( number_of_stats_seq_.map( stat_features ) )
         return fc
     
-    dates = []
-    start_date = ee.Date( start )
-    end_date = ee.Date( end )
-    n = end_date.difference( start_date, 'day' )
-    for i in range(n.getInfo()):
-        date = start_date.advance( ee.Number( i ), 'day' )
-        dates.append( date )
-    dates_ee = ee.List( dates )
-    dates_fc_ = ee.FeatureCollection( dates_ee.map( dates_list_to_feats ) )
-    
-    station_ids = ee.List( stations_.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
-    station_ids_strs_ = ee.List( [str(elem) for elem in station_ids.getInfo()] )
-
-    months_seq = ee.List.sequence( 1, 12 )
-    
-    strs_of_stats_ = ee.List( ['mean', 'stdDev', 'skew', 'pWD', 'pWW'] )
-    number_of_stats_seq_ = ee.List.sequence( 0, strs_of_stats_.length().add( -1 ) ) 
-    
     out_list = months_seq.map( main_funcs_caller )
     out_array = ee.Array( out_list ).transpose()
     out_list_ = out_array.toList()
@@ -174,7 +173,7 @@ for batch_i in range(batch_ct):
     out_fc = ee.FeatureCollection( station_ids_strs_.map( out_list_unpacker ) ).flatten()
     
     task = ee.batch.Export.table.toDrive( collection=out_fc, 
-                                      description='PimaSantaCruz_Demo_2000_2020_{}'.format( str(batch_i) ),
+                                      description='ERA_Demo_2000_2020_{}'.format( str(batch_i) ),
                                       folder='GEE_Downloads',
                                       selectors=['system:index', 'station_ID', 'statistic'] )
     
@@ -189,6 +188,4 @@ for batch_i in range(batch_ct):
     
     later = dt.datetime.now()
     print(str(later - now))
-    
-    
     
