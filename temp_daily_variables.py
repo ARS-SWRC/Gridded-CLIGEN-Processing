@@ -1,6 +1,6 @@
 #GO TO LINE 36: Check path to geometry asset. E.g. change to 'users/andrewfullhart/Africa_ERA_Grid'.                    
 #GO TO LINES 45,46: If slicing, uncomment and enter slice indices (start index is inclusive, end index is exclusive).
-#GO TO LINE 143: Check name of Google Drive export folder.
+#GO TO LINE 144: Check name of Google Drive export folder.
 import ee
 import datetime as dt
 import time
