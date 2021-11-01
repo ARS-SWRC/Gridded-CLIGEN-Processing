@@ -44,7 +44,7 @@ def main():
 
     'slice stations in case of restart'
     #station_feats = stations.toList( 10000000 )
-    #stations = ee.FeatureCollection( station_feats.slice( 100 ) )
+    #stations = ee.FeatureCollection( station_feats.slice( 0, 40 ) )
 
     stationIDs = ee.List( stations.reduceColumns( ee.Reducer.toList(), ['stationID'] ).get( 'list' ) )
     
