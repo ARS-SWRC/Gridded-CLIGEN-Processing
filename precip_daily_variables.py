@@ -1,4 +1,6 @@
-
+#GO TO LINE 37: Check path to geometry asset. E.g. change to 'users/andrewfullhart/Africa_ERA_Grid'.                    
+#GO TO LINES 46,47: If slicing, uncomment and enter slice indices (start index is inclusive, end index is exclusive).
+#GO TO LINE 178: Check name of Google Drive export folder.
 import ee
 import datetime as dt
 import time
@@ -172,7 +174,7 @@ def main():
         out_fc = ee.FeatureCollection( station_ids_strs_.map( out_list_unpacker ) ).flatten()
         
         task = ee.batch.Export.table.toDrive( collection=out_fc, 
-                                          description='ERA_Demo_2000_2020_{}'.format( str(batch_i) ),
+                                          description='ERA_2000_2020_{}'.format( str(batch_i) ),
                                           folder='GEE_Downloads',
                                           selectors=['system:index', 'station_ID', 'statistic'] )
         
