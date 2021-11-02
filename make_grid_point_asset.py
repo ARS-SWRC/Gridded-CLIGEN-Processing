@@ -1,3 +1,4 @@
+#GO TO LINE 49: set path to new asset
 import ee
 import time
 
@@ -5,12 +6,12 @@ import time
 ee.Initialize()
 
 
-product_name = 'USDOS/LSIB_SIMPLE/2017'
+product_name = 'TIGER/2016/Counties'
 
-borders_shp = ee.FeatureCollection( 'USDOS/LSIB_SIMPLE/2017' )
-kgz_shp = borders_shp.filterMetadata( 'country_na', 'equals', 'Kyrgyzstan' )
-tjk_shp = borders_shp.filterMetadata( 'country_na', 'equals', 'Tajikistan' )
-merge_shp = kgz_shp.merge( tjk_shp )
+borders_shp = ee.FeatureCollection( product_name )
+pima_shp = borders_shp.filterMetadata( 'STATEFP', 'equals', '04' ).filterMetadata( 'NAME', 'equals', 'Pima' )
+santacruz_shp = borders_shp.filterMetadata( 'STATEFP', 'equals', '04' ).filterMetadata( 'NAME', 'equals', 'Santa Cruz' )
+merge_shp = pima_shp.merge( santacruz_shp )
 union_shp = merge_shp.union()
 
 start_period = ee.Date( '2018-07-01' )
@@ -19,14 +20,6 @@ end_period = ee.Date( '2018-07-02' )
 era_ic = ee.ImageCollection( 'ECMWF/ERA5/DAILY' )                              \
     .filter( ee.Filter.date( start_period, end_period ) )                      \
     .select( ['total_precipitation'] )
-
-# era_ic = ee.ImageCollection( 'NASA/GPM_L3/IMERG_V06' )                         \
-#     .filter( ee.Filter.date( start_period, end_period ) )                      \
-#     .select( ['precipitationCal'] )
-
-# era_ic = ee.ImageCollection( 'NASA/GLDAS/V021/NOAH/G025/T3H' )                 \
-#     .filter( ee.Filter.date( start_period, end_period ) )                      \
-#     .select( ['SWdown_f_tavg'] )
 
 def clip( im ):
     return im.clip( union_shp )
@@ -53,7 +46,7 @@ def set_properties( ft ):
 vectors_fc = ee.FeatureCollection( vectors_fc.map( set_properties ) )
 
 task = ee.batch.Export.table.toAsset( collection=vectors_fc,
-                                      assetId='users/andrewfullhart/KGZ_TJK_ERA_Grid' )
+                                      assetId='users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
 
 task.start()
 
@@ -66,4 +59,5 @@ if task.status()['state'] != 'COMPLETED':
     print('Export error.')
 else:
     print('Export completed.')
+
 
