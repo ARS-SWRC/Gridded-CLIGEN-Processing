@@ -1,4 +1,6 @@
-|  |  | South America | - | - | > |  | Africa | - | - | > |  |  |  |
+
+
+|  |  | South America | - | - | > |  | Africa | - | - | > |  |  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | CLIGEN Monthly Parameters | Unit | Min | Max | Avg | Median |  | Min | Max | Avg | Median |  | Dataset Input | Statistic Definition |
 | MEAN P | inches | 0.09 | 1.23 | 0.49 | 0.50 |  | 0.07 | 1.59 | 0.34 | 0.33 |  | ERA5 | Mean of single-event accumulation[^3] |
@@ -20,5 +22,3 @@
 [^1]: Time Pk is the only parameter that does not represent a monthly statistic.
 [^2]: Zero values due to gaps in GLDAS coverage for 0.5% and 0.7% of grid points in South America and Africa, respectively.
 [^3]: CLIGEN assumes a maximum of one precipitation event per day.
-
-
