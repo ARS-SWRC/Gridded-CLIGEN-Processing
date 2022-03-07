@@ -1,13 +1,12 @@
 
-
 |  |  | South America | - | - | > |  | Africa | - | - | > |  |  | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | CLIGEN Monthly Parameters | Unit | Min | Max | Avg | Median |  | Min | Max | Avg | Median |  | Dataset Input | Statistic Definition |
 | MEAN P | inches | 0.09 | 1.23 | 0.49 | 0.50 |  | 0.07 | 1.59 | 0.34 | 0.33 |  | ERA5 | Mean of single-event accumulation[^3] |
 | S DEV P | inches | 0.07 | 1.60 | 0.63 | 0.67 |  | 0.01 | 1.49 | 0.38 | 0.37 |  | ERA5 | Standard deviation of single-event accumulation[^3] |
 | SKEW P | - | 0.49 | 5.10 | 2.65 | 2.72 |  | 0.04 | 5.02 | 1.68 | 1.99 |  | ERA5 | Skewness of single-event accumulation[^3] |
-| P(W/W) | - | 0.00 | 1.00 | 0.47 | 0.47 |  | 0.00 | 1.00 | 0.29 | 0.28 |  | ERA5 | Conditional transition probability of wet day following wet day |
-| P(W/D) | - | 0.00 | 1.00 | 0.20 | 0.18 |  | 0.00 | 1.00 | 0.10 | 0.03 |  | ERA5 | Conditional transition probability of wet day following dry day |
+| P(W/W) | - | 0.00 | 1.00 | 0.47 | 0.47 |  | 0.00 | 1.00 | 0.29 | 0.28 |  | ERA5 | Conditional transition probability of wet day following wet day[^4] |
+| P(W/D) | - | 0.00 | 1.00 | 0.20 | 0.18 |  | 0.00 | 1.00 | 0.10 | 0.03 |  | ERA5 | Conditional transition probability of wet day following dry day[^4] |
 | TMAX AV | Fahrenheit | 10.42 | 101.63 | 79.95 | 85.15 |  | 40.83 | 117.00 | 87.01 | 86.72 |  | ERA5 | Mean daily maximum temperature |
 | TMIN AV | Fahrenheit | -2.60 | 81.26 | 63.19 | 69.53 |  | 22.21 | 90.77 | 66.02 | 68.04 |  | ERA5 | Mean daily minimum temperature |
 | SD TMAX | Fahrenheit | 0.47 | 11.85 | 4.57 | 3.85 |  | 0.53 | 12.05 | 4.49 | 4.00 |  | ERA5 | Standard deviation of daily maximum temperature |
@@ -22,3 +21,5 @@
 [^1]: Time Pk is the only parameter that does not represent a monthly statistic.
 [^2]: Zero values due to gaps in GLDAS coverage for 0.5% and 0.7% of grid points in South America and Africa, respectively.
 [^3]: CLIGEN assumes a maximum of one precipitation event per day.
+[^4]: A parameter adjustment method was used to balance transition probabilities based on MEAN P and monthly accumulation from TerraClimate.
+
