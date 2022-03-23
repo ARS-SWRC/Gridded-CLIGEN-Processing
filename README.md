@@ -13,6 +13,12 @@ of selected climate products for clipped regions.
 - Test possibilities for optimizing the code to reduce run-time.
 - Run the code for large regions.
 
+# GEE Point Geometry Assets
+| Description | Path | n | Resolution |
+| ------ | ------ | ------ | ------ |
+| Northern Latitude Band Grid | ("users/andrewfullhart/Northern_ERA_Grid") | 114952 | 0.25 arc deg |
+| Southern Latitude Band Grid | ("users/andrewfullhart/Southern_GPM_Grid") | 37105 | 0.25 arc deg |
+
 # Monthly CLIGEN Input Parameters
 
 | Parameter	| Label	| Script | Climate Product | Band |
