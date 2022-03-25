@@ -5,3 +5,8 @@
 | M6W4DUR537GSGO3MZXMOR6O7 | solrad_subdaily_variables.py   | 20                   | 26 min                     | 1.30 min       |
 | 35OCX633FQN36ZYIU2J5GN4X | intensity_subdaily_variable.py | 10                   | 20 min                     | 2.00 min       |
 | V43V3PEZOFXR5S7MCHS6M5CJ | intensity_subdaily_variable.py | 20                   | 26 min                     | 1.30 min       |
+
+[precip_daily_variables.py]: <https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/precip_daily_variables.py>
+[intensity_subdaily_variable.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/intensity_subdaily_variable.py>
+[temp_daily_variables.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/temp_daily_variables.py>
+[solrad_daily_variables.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/temp_daily_variables.py>
