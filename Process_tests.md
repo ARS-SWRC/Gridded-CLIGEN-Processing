@@ -9,4 +9,4 @@
 [precip_daily_variables.py]: <https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/precip_daily_variables.py>
 [intensity_subdaily_variable.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/intensity_subdaily_variable.py>
 [temp_daily_variables.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/temp_daily_variables.py>
-[solrad_daily_variables.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/solrad_subdaily_variables.py>
+[solrad_subdaily_variables.py]:<https://github.com/ARS-SWRC/Gridded-CLIGEN-Processing/blob/main/solrad_subdaily_variables.py>
