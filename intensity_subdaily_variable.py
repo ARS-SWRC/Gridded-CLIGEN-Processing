@@ -1,4 +1,4 @@
-#GO TO LINE 25: Check path to geometry asset. E.g. change to 'users/andrewfullhart/Africa_ERA_Grid'.                    
+#GO TO LINE 25: Check path to geometry asset. E.g. change to 'users/andrewfullhart/Northern_ERA_Grid'.                    
 #GO TO LINES 35,36: If slicing, uncomment and enter slice indices (start index is inclusive, end index is exclusive).
 #GO TO LINE 131: Check name of Google Drive export folder.
 import ee
@@ -22,7 +22,7 @@ def main():
     
     product_name_ = 'NASA/GPM_L3/IMERG_V06' 
     band_labels_ = ['precipitationCal']
-    asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
+    asset = ee.FeatureCollection( 'users/andrewfullhart/Northern_ERA_Grid' )
     
     start = '2001-01-01'
     end = '2021-01-01'
