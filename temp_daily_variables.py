@@ -33,7 +33,7 @@ def main():
     
     product_name_ = 'ECMWF/ERA5/DAILY'
     band_labels_ = ['maximum_2m_air_temperature', 'minimum_2m_air_temperature', 'dewpoint_2m_temperature']
-    asset = ee.FeatureCollection( 'users/andrewfullhart/PimaSantaCruz_ERA_Grid' )
+    asset = ee.FeatureCollection( 'users/andrewfullhart/Northern_ERA_Grid' )
     start_ = '2000-01-01'
     end_ = '2020-01-01'
     
