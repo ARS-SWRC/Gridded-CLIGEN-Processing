@@ -133,12 +133,12 @@ def main():
         
         task.start()
         
-        while task.active():
-            time.sleep( 30 )
-        if task.status()['state'] != 'COMPLETED':
-            pass
-        else:
-            pass
+        #while task.active():
+        #    time.sleep( 30 )
+        #if task.status()['state'] != 'COMPLETED':
+        #    pass
+        #else:
+        #    pass
         
         later = dt.datetime.now()
         print(str(later - now))
